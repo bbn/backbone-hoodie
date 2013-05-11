@@ -43,27 +43,28 @@
     var type,
       _this = this;
 
-    type = this.model.prototype.type;
-    if (type) {
-      Backbone.hoodie.store.on("add:" + type, function(attributes) {
-        console.log("attr");
-        console.log(attributes);
-        return _this.add(attributes);
-      });
-      Backbone.hoodie.store.on("remove:" + type, function(attributes, options) {
-        var id, _ref;
+    if (this.model) {
+      type = this.model.prototype.type;
+      this.fetch();
+      if (type) {
+        Backbone.hoodie.store.on("add:" + type, function(attributes) {
+          return _this.add(attributes);
+        });
+        Backbone.hoodie.store.on("remove:" + type, function(attributes, options) {
+          var id, _ref;
 
-        id = attributes.id;
-        return (_ref = _this.get(id)) != null ? _ref.destroy(options) : void 0;
-      });
-      return Backbone.hoodie.store.on("update:" + type, function(attributes, options) {
-        var id, _ref;
-
-        if (options.remote) {
           id = attributes.id;
-          return (_ref = _this.get(id)) != null ? _ref.merge(attributes) : void 0;
-        }
-      });
+          return (_ref = _this.get(id)) != null ? _ref.destroy(options) : void 0;
+        });
+        return Backbone.hoodie.store.on("update:" + type, function(attributes, options) {
+          var id, _ref;
+
+          if (options.remote) {
+            id = attributes.id;
+            return (_ref = _this.get(id)) != null ? _ref.merge(attributes) : void 0;
+          }
+        });
+      }
     }
   };
 

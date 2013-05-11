@@ -26,20 +26,19 @@ Backbone.Model::merge           = (attributes) ->
 
 # Make Collections listen to events.
 Backbone.Collection::initialize = ->
-  type = @model.prototype.type
-  # @fetch()
+  if @model
+    type = @model.prototype.type
+    @fetch()
 
-  if type
-    Backbone.hoodie.store.on    "add:#{type}", (attributes) =>
-      console.log "attr"
-      console.log attributes
-      @add attributes
+    if type
+      Backbone.hoodie.store.on    "add:#{type}", (attributes) =>
+        @add attributes
 
-    Backbone.hoodie.store.on "remove:#{type}", (attributes,options) =>
-      id = attributes.id
-      @get(id)?.destroy options
-
-    Backbone.hoodie.store.on "update:#{type}", (attributes,options) =>
-      if options.remote
+      Backbone.hoodie.store.on "remove:#{type}", (attributes,options) =>
         id = attributes.id
-        @get(id)?.merge attributes
+        @get(id)?.destroy options
+
+      Backbone.hoodie.store.on "update:#{type}", (attributes,options) =>
+        if options.remote
+          id = attributes.id
+          @get(id)?.merge attributes
