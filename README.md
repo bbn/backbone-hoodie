@@ -1,6 +1,6 @@
 backbone-hoodie adapter
 
-Ben Nevile
+Ben Nevile, http://mainsocial.com
 
 (begun by gr2m -- https://github.com/hoodiehq/hoodie.js/pull/56#issuecomment-17736543)
 
@@ -8,13 +8,19 @@ Ben Nevile
 ```coffeescript
 Backbone.connect() #creates a new hoodie at Backbone.hoodie
 
+
 class Task extends Backbone.Model
+  # models must have a type. maps to type in hoodie store.
   type: "task"
+  
   defaults: 
     name: "New Task"
 
+
 class TaskCollection extends Backbone.Collection  
-  model: Task
+  # if a collection has a model, the adapter will keep the collection
+  # up to date with all the models in the store. 
+  model: Task 
 
 
 t = new Task {name:"laundry"}
