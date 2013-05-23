@@ -23,7 +23,8 @@
   "dependencies": {
     "hoodie-app": "git://github.com/hoodiehq/hoodie-app.git",
     "underscore": ">=1.4.3",
-    "backbone": ">=0.9.9"
+    "backbone": ">=0.9.9",
+    "hoodie": "~0.1.24"
   },
   "main": "backbone-hoodie",
   "domains": [
