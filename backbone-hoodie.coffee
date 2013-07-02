@@ -32,17 +32,25 @@ factory = (Backbone, Hoodie) ->
       @fetch()
 
       if type
-        Backbone.hoodie.store.on    "add:#{type}", (attributes) =>
-          @add attributes
+        Backbone.hoodie.store.on "add:#{type}", (attributes) => @eventAdd attributes
+        Backbone.hoodie.remote.on "add:#{type}", (attributes) => @eventAdd attributes
 
-        Backbone.hoodie.store.on "remove:#{type}", (attributes,options) =>
-          id = attributes.id
-          @get(id)?.destroy options
+        Backbone.hoodie.store.on "remove:#{type}", (attributes) => @eventRemove attributes
+        Backbone.hoodie.remote.on "remove:#{type}", (attributes) => @eventRemove attributes
 
-        Backbone.hoodie.store.on "update:#{type}", (attributes,options) =>
-          if options.remote
-            id = attributes.id
-            @get(id)?.merge attributes
+        Backbone.hoodie.store.on "update:#{type}", (attributes) => @eventUpdate attributes
+        Backbone.hoodie.remote.on "update:#{type}", (attributes) => @eventUpdate attributes
+
+  Backbone.Collection::eventAdd = (attributes) ->
+    @add attributes
+
+  Backbone.Collection::eventRemove = (attributes) ->
+    id = attributes.id
+    @get(id)?.destroy()
+
+  Backbone.Collection::eventUpdate = (attributes) ->
+    id = attributes.id
+    @get(id)?.merge attributes
 
   return Backbone
 
