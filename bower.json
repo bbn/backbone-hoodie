@@ -1,5 +1,9 @@
 {
   "name": "backbone-hoodie",
   "version": "1.0.0",
-  "main": "backbone-hoodie.js"
+  "main": "backbone-hoodie.js",
+  "dependencies": {
+    "backbone": "~1.0.0",
+    "hoodie": "~0.2.5"
+  }
 }
